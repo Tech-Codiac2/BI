@@ -1,0 +1,84 @@
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+public class DocumentSimilarityWithReusedPassages {
+    public static double calculateCosineSimilarity(String doc1, String doc2) {
+        // Tokenize the documents
+        String[] tokens1 = doc1.toLowerCase().split("\\s+");
+        String[] tokens2 = doc2.toLowerCase().split("\\s+");
+
+        // Create frequency vectors
+        Map<String, Integer> vector1 = new HashMap<>();
+        Map<String, Integer> vector2 = new HashMap<>();
+
+        // Populate frequency vectors
+        for (String token : tokens1) {
+            vector1.put(token, vector1.getOrDefault(token, 0) + 1);
+        }
+
+        for (String token : tokens2) {
+            vector2.put(token, vector2.getOrDefault(token, 0) + 1);
+        }
+
+        // Calculate dot product
+        double dotProduct = 0.0;
+        for (String token : vector1.keySet()) {
+            if (vector2.containsKey(token)) {
+                dotProduct += vector1.get(token) * vector2.get(token); // Corrected multiplication
+            }
+        }
+
+        // Calculate magnitudes
+        double magnitude1 = calculateMagnitude(vector1);
+        double magnitude2 = calculateMagnitude(vector2);
+
+        // Calculate cosine similarity
+        if (magnitude1 == 0.0 || magnitude2 == 0.0) {
+            return 0.0; // Handle division by zero
+        } else {
+            return dotProduct / (magnitude1 * magnitude2); // Corrected multiplication
+        }
+    }
+
+    private static double calculateMagnitude(Map<String, Integer> vector) {
+        double sumOfSquares = 0.0;
+        for (int value : vector.values()) {
+            sumOfSquares += value * value; // Corrected multiplication
+        }
+        return Math.sqrt(sumOfSquares);
+    }
+
+    public static Set<String> findReusedPassages(String doc1, String doc2, int minPhraseLength) {
+        Set<String> reusedPassages = new HashSet<>();
+        String[] sentences1 = doc1.split("\\.");
+        String[] sentences2 = doc2.split("\\.");
+
+        for (String sentence1 : sentences1) {
+            for (String sentence2 : sentences2) {
+                double similarity = calculateCosineSimilarity(sentence1, sentence2);
+                if (similarity > 0.7) { // Adjust the threshold as needed
+                    String commonPhrase = sentence1.trim() + " || " + sentence2.trim();
+                    reusedPassages.add(commonPhrase);
+                }
+            }
+        }
+        return reusedPassages;
+    }
+
+    public static void main(String[] args) {
+        String document1 = "This is a sample document. It contains some text.";
+        String document2 = "This is a similar document. It has some shared text.";
+
+        double similarity = calculateCosineSimilarity(document1, document2);
+        System.out.println("Cosine Similarity: " + similarity);
+
+        int minPhraseLength = 5; // Minimum phrase length for reused passages
+        Set<String> reusedPassages = findReusedPassages(document1, document2, minPhraseLength);
+        System.out.println("Reused Passages:");
+        for (String phrase : reusedPassages) {
+            System.out.println(phrase);
+        }
+    }
+}

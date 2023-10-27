@@ -1,0 +1,21 @@
+import java.util.Random;
+
+public class AMSAlgorithm {
+    public static double estimateSecondMoment(int[] dataStream, int k) {
+        Random random = new Random();
+        int sum = 0;
+        for (int i = 0; i < k; i++) {
+            int randomIndex = random.nextInt(dataStream.length);
+            sum += dataStream[randomIndex] * dataStream[randomIndex]; // Corrected multiplication
+        }
+        double estimate = (double) sum / k;
+        return estimate;
+    }
+
+    public static void main(String[] args) {
+        int[] dataStream = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        int k = 5;
+        double secondMomentEstimate = estimateSecondMoment(dataStream, k);
+        System.out.println("Estimated Second Moment: " + secondMomentEstimate);
+    }
+}

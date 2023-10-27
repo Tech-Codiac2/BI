@@ -1,0 +1,29 @@
+open in terminal
+
+format -hdfs namenode -format
+start- start-all.sh
+go to mozila
+localhost
+go to utilities -browse the file system
+go to terminal- hadoop fs -mkdir /amal
+nano amal
+create a input txt file
+
+hadoop fs -put input.txt /amal
+
+intelej- files/downloads/idea/bin right click open in terminal
+
+. /idea.sh to open ide java
+
+open word(com.xci)
+
+steps to create jar file 
+maven ..clean and start
+
+after creating jar 
+go to terminal
+jar target/(jar file ka file location) org.ashutosh.(runnerkafilelocation)/ashu(hadoop)/input.txt/output
+
+go to localhost
+
+fir kar lena

@@ -1,0 +1,23 @@
+import java.util.HashSet;
+import java.util.Set;
+
+public class kshingles {
+    public static Set<String> constructKShingles(String document, int k) {
+        Set<String> shingles = new HashSet<>();
+        for (int i = 0; i <= document.length() - k; i++) {
+            String kShingle = document.substring(i, i + k);
+            shingles.add(kShingle);
+        }
+        return shingles;
+    }
+
+    public static void main(String[] args) {
+        String document = "This is a sample document for shingling.";
+        int k = 3;
+        Set<String> shingles = constructKShingles(document, k);
+        System.out.println("KShingles:");
+        for (String shingle : shingles) {
+            System.out.println(shingle);
+        }
+    }
+}

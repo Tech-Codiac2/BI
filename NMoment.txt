@@ -1,0 +1,16 @@
+public class NMoment {
+    public static double calculateNMoment(double[] dataStream, int n) {
+        double sum = 0.0;
+        for (double data : dataStream) {
+            sum += Math.pow(data, n);
+        }
+        return sum / dataStream.length;
+    }
+
+    public static void main(String[] args) {
+        double[] dataStream = {1.0, 2.0, 3.0, 4.0, 5.0};
+        int n = 2;
+        double nMoment = calculateNMoment(dataStream, n);
+        System.out.println("The " + n + " Moment is: " + nMoment);
+    }
+}
